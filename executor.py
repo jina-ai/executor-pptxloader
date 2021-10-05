@@ -31,8 +31,6 @@ class PptxLoader(Executor):
                             d.chunks.append(Document(content=run.text))
 
                 if isinstance(shape, pptx.shapes.picture.Picture):
-                    d.chunks.append(Document(blob=shape.image.blob))
-                    with open(f'{nr}.png', 'wb') as f:
-                        f.write(shape.image.blob)
+                    d.chunks.append(Document(content=shape.image.blob))
                     nr += 1
 
