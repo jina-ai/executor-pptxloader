@@ -5,14 +5,15 @@ from jina import Document, DocumentArray
 from executor import PptxLoader
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(cur_dir, '..', 'data')
 
 
-def test_pptx_text():
+def test_pptx():
     expected_imgs = [
-        open(os.path.join(cur_dir, f'{i}.png'), 'rb').read() for i in range(4)
+        open(os.path.join(data_dir, f'{i}.png'), 'rb').read() for i in range(4)
     ]
 
-    test_file = os.path.join(cur_dir, 'test.pptx')
+    test_file = os.path.join(data_dir, 'test.pptx')
     docs = DocumentArray([Document(uri=test_file)])
     PptxLoader().process(docs, {})
 
