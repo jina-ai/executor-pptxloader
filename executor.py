@@ -35,9 +35,11 @@ class PptxLoader(Executor):
                 if shape.has_text_frame:
                     for paragraph in shape.text_frame.paragraphs:
                         for run in paragraph.runs:
-                            d.chunks.append(Document(content=run.text))
+                            d.chunks.append(Document(content=run.text,
+                                                     modality='text'))
 
                 if isinstance(shape, pptx.shapes.picture.Picture):
-                    d.chunks.append(Document(content=shape.image.blob))
+                    d.chunks.append(Document(content=shape.image.blob,
+                                             modality='image'))
                     nr += 1
 

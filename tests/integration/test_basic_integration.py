@@ -22,8 +22,8 @@ def test_integration_basic():
         result = f.index(docs, return_results=True)
         docs = result[0].docs
 
-    c_text = [c.content for c in docs[0].chunks if isinstance(c.content, str)]
-    c_img = [c.content for c in docs[0].chunks if isinstance(c.content, bytes)]
+    c_text = [c.content for c in docs[0].chunks if c.modality == 'text']
+    c_img = [c.content for c in docs[0].chunks if c.modality == 'image']
 
     assert ['JINA + EUROPYTHON', 'WORKSHOP', '26 July 2021',
             'Cristian Mitroi, Maximilian Werk ', 'Jina AI', '',
