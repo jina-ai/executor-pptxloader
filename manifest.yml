@@ -1,2 +1,5 @@
 manifest_version: 1
 name: PptxLoader
+description: Loads PowerPoint files into Jina Documents
+url: https://github.com/jina-ai/executor-pptxloader
+keywords: [loader, image, text, PowerPoint, slides, slideshows]
