@@ -5,9 +5,16 @@ from jina import Executor, DocumentArray, requests, Document
 
 
 class PptxLoader(Executor):
+    """An Executor for loading text and images from Powerpoint .pptx files"""
     def __init__(self,
                  traversal_paths: list = ['r'],
                  *args, **kwargs):
+        """
+        :param traversal_paths: the traversal paths to be used in traversing
+            the DocumentArray received
+        :param args: the *args for Executor
+        :param kwargs: the **kwargs for Executor
+        """
         super().__init__(*args, **kwargs)
         self.traversal_paths = traversal_paths
 
@@ -28,11 +35,11 @@ class PptxLoader(Executor):
                 if shape.has_text_frame:
                     for paragraph in shape.text_frame.paragraphs:
                         for run in paragraph.runs:
-                            d.chunks.append(Document(content=run.text))
+                            d.chunks.append(Document(content=run.text,
+                                                     modality='text'))
 
                 if isinstance(shape, pptx.shapes.picture.Picture):
-                    d.chunks.append(Document(blob=shape.image.blob))
-                    with open(f'{nr}.png', 'wb') as f:
-                        f.write(shape.image.blob)
+                    d.chunks.append(Document(content=shape.image.blob,
+                                             modality='image'))
                     nr += 1
 
