@@ -7,7 +7,7 @@ from jina import Executor, DocumentArray, requests, Document
 class PptxLoader(Executor):
     """An Executor for loading text and images from Powerpoint .pptx files"""
     def __init__(self,
-                 traversal_paths: list = ['r'],
+                 traversal_paths: str = 'r',
                  *args, **kwargs):
         """
         :param traversal_paths: the traversal paths to be used in traversing
