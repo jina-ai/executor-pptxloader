@@ -1,29 +1,36 @@
 from typing import Optional, Dict
 import pptx
-
+from warnings import warn
 from jina import Executor, DocumentArray, requests, Document
 
 
 class PptxLoader(Executor):
     """An Executor for loading text and images from Powerpoint .pptx files"""
     def __init__(self,
-                 traversal_paths: str = 'r',
+                 access_paths: str = 'r',
+                 traversal_paths: Optional[str] = None,
                  *args, **kwargs):
         """
-        :param traversal_paths: the traversal paths to be used in traversing
+        :param access_paths: the access paths to be used in traversing
             the DocumentArray received
+        :param traversal_paths: please use access_paths
         :param args: the *args for Executor
         :param kwargs: the **kwargs for Executor
         """
         super().__init__(*args, **kwargs)
-        self.traversal_paths = traversal_paths
+        if traversal_paths is not None:
+            warn("'traversal_paths' will be deprecated in the future, please use 'access_paths'.",
+                 DeprecationWarning,
+                 stacklevel=2)
+        else:
+            self.access_paths = access_paths
 
     @requests
     def process(self, docs: DocumentArray, parameters: Optional[Dict], **kwargs):
         """Process the documents and extract the text and images
         """
-        traversal_paths = parameters.get('traversal_paths', self.traversal_paths)
-        for d in docs.traverse_flat(traversal_paths):
+        access_paths = parameters.get('access_paths', self.access_paths)
+        for d in docs.traverse_flat(access_paths):
             self._process_one(d)
 
     def _process_one(self, d):
