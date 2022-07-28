@@ -8,17 +8,22 @@ class PptxLoader(Executor):
     """An Executor for loading text and images from Powerpoint .pptx files"""
     def __init__(self,
                  access_paths: str = 'r',
+                 traversal_paths: Optional[str] = None,
                  *args, **kwargs):
         """
         :param access_paths: the access paths to be used in traversing
             the DocumentArray received
+        :param traversal_paths: please use access_paths
         :param args: the *args for Executor
         :param kwargs: the **kwargs for Executor
         """
-        if("traversal_paths" in kwargs.keys()):
-            warn("'traversal_paths' is deprecated, please use 'access_paths'")
         super().__init__(*args, **kwargs)
-        self.access_paths = access_paths
+        if traversal_paths is not None:
+            warn("'traversal_paths' will be deprecated in the future, please use 'access_paths'.",
+                 DeprecationWarning,
+                 stacklevel=2)
+        else:
+            self.access_paths = access_paths
 
     @requests
     def process(self, docs: DocumentArray, parameters: Optional[Dict], **kwargs):
